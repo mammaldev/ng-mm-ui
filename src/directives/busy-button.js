@@ -34,15 +34,17 @@ angular.module('mm.ui')
           .toggleClass('busy-button-busy', nv)
           .prop('disabled', nv);
 
-          if (nv && customMessage) {
+          if (customMessage) {
+            if (nv) {
 
-            // If we are currently busy then we change the message
-            elem.text(customMessage);
+              // If we are currently busy then we change the message
+              elem.text(customMessage);
 
-          } else if (!nv && customMessage) {
+            } else {
 
-            // If we're not busy then we reset the text to the default message
-            elem.text(defaultMessage);
+              // If we're not busy then we reset the text to the default message
+              elem.text(defaultMessage);
+            }
           }
         }
       });
