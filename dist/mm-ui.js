@@ -1,21 +1,19 @@
 angular.module('mm.ui', []);
 
 angular.module('mm.ui')
-.directive('mmBusyButton', function mmBusyButton() {
+.directive('mmBusyButton', function mmBusyButton( $parse ) {
 
   return {
 
     //
-    // Scope:
-    //   busy       {Boolean}    Whether or not the button is in the busy state
-    //   message    {String}     The text to show on the button when busy
+    // Attrs:
+    //   mmBusyButtonModel      {Boolean}    Whether or not the button is in the busy state
+    //   mmBusyButtonMessage    {String}     The text to show on the button when busy
     //
-    scope: {
-      busy: '=mmBusyButtonModel',
-      message: '@mmBusyButtonMessage'
-    },
 
-    link: function (scope, elem) {
+    link: function (scope, elem, attrs) {
+
+      var busyGetter = $parse(attrs.mmBusyButtonModel);
 
       // The default message is the text within the DOM node at compile-time
       var defaultMessage = elem.text();
@@ -25,7 +23,11 @@ angular.module('mm.ui')
 
       // Watch the 'busy' model and toggle the disabled state of the button and
       // the class that shows the spinner when it changes
-      scope.$watch('busy', function (nv) {
+      scope.$watch(function () {
+        return busyGetter(scope);
+      }, function (nv) {
+
+        var customMessage = attrs.mmBusyButtonMessage;
 
         if (nv !== undefined) {
 
@@ -34,15 +36,17 @@ angular.module('mm.ui')
           .toggleClass('busy-button-busy', nv)
           .prop('disabled', nv);
 
-          if (nv && scope.message) {
+          if (customMessage) {
+            if (nv) {
 
-            // If we are currently busy then we change the message
-            elem.text(scope.message);
+              // If we are currently busy then we change the message
+              elem.text(customMessage);
 
-          } else if (!nv && scope.message) {
+            } else {
 
-            // If we're not busy then we reset the text to the default message
-            elem.text(defaultMessage);
+              // If we're not busy then we reset the text to the default message
+              elem.text(defaultMessage);
+            }
           }
         }
       });
@@ -57,13 +61,9 @@ angular.module('mm.ui')
     require: 'ngModel',
     link: function ( scope, elem, attr, ngModel ) {
 
-      console.log('mm-r-s');
-
       scope.$watch(function () {
         return ngModel.$modelValue;
       }, function ( newValue ) {
-
-      console.log('mm-r-s', newValue);
         ngModel.$setViewValue(newValue);
         ngModel.$render();
       }, true);
