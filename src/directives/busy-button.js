@@ -1,19 +1,17 @@
 angular.module('mm.ui')
-.directive('mmBusyButton', function mmBusyButton() {
+.directive('mmBusyButton', function mmBusyButton( $parse ) {
 
   return {
 
     //
-    // Scope:
-    //   busy       {Boolean}    Whether or not the button is in the busy state
-    //   message    {String}     The text to show on the button when busy
+    // Attrs:
+    //   mmBusyButtonModel      {Boolean}    Whether or not the button is in the busy state
+    //   mmBusyButtonMessage    {String}     The text to show on the button when busy
     //
-    scope: {
-      busy: '=mmBusyButtonModel',
-      message: '@mmBusyButtonMessage'
-    },
 
-    link: function (scope, elem) {
+    link: function (scope, elem, attrs) {
+
+      var busyGetter = $parse(attrs.mmBusyButtonModel);
 
       // The default message is the text within the DOM node at compile-time
       var defaultMessage = elem.text();
@@ -23,7 +21,11 @@ angular.module('mm.ui')
 
       // Watch the 'busy' model and toggle the disabled state of the button and
       // the class that shows the spinner when it changes
-      scope.$watch('busy', function (nv) {
+      scope.$watch(function () {
+        return busyGetter(scope);
+      }, function (nv) {
+
+        var customMessage = attrs.mmBusyButtonMessage;
 
         if (nv !== undefined) {
 
@@ -32,12 +34,12 @@ angular.module('mm.ui')
           .toggleClass('busy-button-busy', nv)
           .prop('disabled', nv);
 
-          if (nv && scope.message) {
+          if (nv && customMessage) {
 
             // If we are currently busy then we change the message
-            elem.text(scope.message);
+            elem.text(customMessage);
 
-          } else if (!nv && scope.message) {
+          } else if (!nv && customMessage) {
 
             // If we're not busy then we reset the text to the default message
             elem.text(defaultMessage);
