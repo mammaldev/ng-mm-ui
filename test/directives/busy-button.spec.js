@@ -23,28 +23,28 @@ describe('mmBusyButton directive', function () {
     scope.$apply(function () {
       scope.busy = true;
     });
-    expect(elem.hasClass('busy-button-busy')).toBe(true);
+    expect(elem.hasClass('busy-button-busy')).to.equal(true);
   });
 
   it('should disable the button when the model evaluates to true', function () {
     scope.$apply(function () {
       scope.busy = true;
     });
-    expect(elem.prop('disabled')).toBe(true);
+    expect(elem.prop('disabled')).to.equal(true);
   });
 
   it('should remove a class when the model evaluates to false', function () {
     scope.$apply(function () {
       scope.busy = false;
     });
-    expect(elem.hasClass('busy-button-busy')).toBe(false);
+    expect(elem.hasClass('busy-button-busy')).to.equal(false);
   });
 
   it('should enable the button when the model evaluates to true', function () {
     scope.$apply(function () {
       scope.busy = false;
     });
-    expect(elem.prop('disabled')).toBe(false);
+    expect(elem.prop('disabled')).to.equal(false);
   });
 
   it('should change the button text when the model evaluates to true' +
@@ -54,11 +54,11 @@ describe('mmBusyButton directive', function () {
       '<button mm-busy-button mm-busy-button-model="busy" mm-busy-button-message="{{ message }}">Save</button>'
     );
     compile(elem)(scope);
-    expect(elem.text()).toBe('Save');
+    expect(elem.text()).to.equal('Save');
     scope.$apply(function () {
       scope.busy = true;
     });
-    expect(elem.text()).toBe('Saving');
+    expect(elem.text()).to.equal('Saving');
   });
 
   it('should change the button text back to the default when the model evaluates to false' +
@@ -70,10 +70,10 @@ describe('mmBusyButton directive', function () {
     );
     compile(elem)(scope);
     scope.$digest();
-    expect(elem.text()).toBe('Saving');
+    expect(elem.text()).to.equal('Saving');
     scope.$apply(function () {
       scope.busy = false;
     });
-    expect(elem.text()).toBe('Save');
+    expect(elem.text()).to.equal('Save');
   });
 });

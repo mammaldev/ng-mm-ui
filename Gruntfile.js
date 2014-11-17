@@ -24,7 +24,10 @@ module.exports = function (grunt) {
             'src/**/*.js': 'coverage'
           },
           frameworks: [
-            'jasmine'
+            'mocha',
+            'sinon',
+            'chai',
+            'chai-as-promised'
           ],
           reporters: [
             'coverage',
