@@ -36,3 +36,20 @@ directive will add the `busy-button` class to its element.
 | --------------------- | ---------- | ------- |
 | `mmBusyButtonModel`   | Expression | If the expression is truthy then the `busy-button-busy` class is added to the element. If the expression is falsy the class is removed from the element. |
 | `mmBusyButtonMessage`<br>*(optional)* | String | If the `mmBusyButtonModel` expression is truthy the button text will be changed to this value. If the expression is falsy the text will be changed back to the string present in the source. |
+
+### The `mmRequireSome` directive
+
+The `mmRequireSome` directive provides validation for the length of items in an array. It's primary use case is providing validation for a hidden form control where more complex ui modifies the controller $scope value.
+
+##### Usage
+
+```html
+<form name="myForm" ng-submit="doSomething()">
+  <input type="text" name="listOfIds" ng-model="data.listOfIds" mm-require-some />
+  <span class="invalid" ng-show="myForm.listOfIds.$error.mmRequireSome">
+    The array is empty
+  </span>
+  <button type="submit" ng-disabled="myForm.$invalid">Submit</button>
+</form>
+```
+
