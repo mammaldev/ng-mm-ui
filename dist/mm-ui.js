@@ -1,7 +1,7 @@
 angular.module('mm.ui', []);
 
 angular.module('mm.ui')
-.directive('mmBusyButton', function mmBusyButton( $parse ) {
+.directive('mmBusyButton', ["$parse", function mmBusyButton( $parse ) {
 
   return {
 
@@ -52,7 +52,7 @@ angular.module('mm.ui')
       });
     }
   };
-});
+}]);
 
 angular.module('mm.ui')
 .directive('mmRequireSome', function mmRequireSome() {
