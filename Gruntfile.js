@@ -5,6 +5,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-karma');
+  grunt.loadNpmTasks('grunt-ng-annotate');
 
   grunt.initConfig({
     jshint: {
@@ -80,12 +81,24 @@ module.exports = function (grunt) {
         },
         files: {
           'dist/mm-ui.min.js': [
-            'src/init.js',
-            'src/**/*.js'
+            'dist/mm-ui.min.js'
           ]
         }
       }
-    }
+    },
+    ngAnnotate: {
+      main: {
+        files: {
+          'dist/mm-ui.min.js': [
+            'src/init.js',
+            'src/**/*.js'
+          ],
+          'dist/mm-ui.js': [
+            'dist/mm-ui.js'
+          ]
+        },
+      },
+    },
   });
 
   grunt.registerTask('default', [
@@ -93,6 +106,7 @@ module.exports = function (grunt) {
     'karma',
     'coverage',
     'concat',
+    'ngAnnotate',
     'uglify'
   ]);
 };
