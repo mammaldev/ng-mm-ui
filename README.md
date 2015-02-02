@@ -53,3 +53,26 @@ The `mmRequireSome` directive provides validation for the length of items in an 
 </form>
 ```
 
+### The `mmUnsavedWork` factory
+
+The `mmUnsavedWork` factory can be used to prevent users from losing changes they have made to data when navigating to another page. `mmUnsavedWork.setStatus` sets a boolean against a key for each piece of data one chooses on the page.  If any value is true when a page navigation starts then a confirmation box will pop up alerting the user to the fact they may lose unsaved work and the option to stay on the page or continue.
+
+##### Usage
+
+```js
+
+angular.module('YourApp')
+.controller('YourController', function ( mmUnsavedWork ) {
+
+  $scope.functionThatRunsWhenDataOnPageChanged = function () {
+    mmUnsavedWork.setStatus('work', true);
+  }
+
+  $scope.save = function () {
+    $http.post('/work', $scope.work)
+    .success(function () {
+      mmUnsavedWork.setStatus('work', false);
+    });
+  }
+}
+```
