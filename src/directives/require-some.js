@@ -8,7 +8,7 @@ angular.module('mm.ui')
       scope.$watch(function () {
         return ngModel.$modelValue;
       }, function ( newValue ) {
-        ngModel.$setViewValue(newValue);
+        ngModel.$setViewValue(angular.copy(newValue));
         ngModel.$render();
       }, true);
 
