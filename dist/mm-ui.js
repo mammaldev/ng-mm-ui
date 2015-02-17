@@ -68,10 +68,15 @@ angular.module('mm.ui')
         ngModel.$render();
       }, true);
 
-      ngModel.$formatters.unshift(function (value) {
-        ngModel.$setValidity('mmRequireSome', value && value.length > 0);
-        return value;
-      });
+      ngModel.$validators.mmRequireSome = function ( modelValue, viewValue ) {
+        var value = modelValue || viewValue;
+
+        if ( modelValue && modelValue.length ) {
+          return true;
+        }
+
+        return false;
+      };
 
       ngModel.$parsers.unshift(function (value) {
         if (!Array.isArray(value)) {
