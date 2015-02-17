@@ -36,7 +36,12 @@ describe('mmRequireSome directive', function () {
 
   it('should not pass with an empty string', function() {
     form.someArray.$setViewValue('');
-    expect(scope.data.listOfIds).to.deep.equal([]);
+    expect(scope.data.listOfIds).to.equal(undefined);
+    expect(form.someArray.$valid).to.equal(false);
+  });
+
+  it('should not pass with undefined', function() {
+    expect(scope.data.listOfIds).to.equal(undefined);
     expect(form.someArray.$valid).to.equal(false);
   });
 
