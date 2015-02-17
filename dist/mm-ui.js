@@ -64,12 +64,11 @@ angular.module('mm.ui')
       scope.$watch(function () {
         return ngModel.$modelValue;
       }, function ( newValue ) {
-        ngModel.$setViewValue(newValue);
+        ngModel.$setViewValue(angular.copy(newValue));
         ngModel.$render();
       }, true);
 
-      ngModel.$validators.mmRequireSome = function ( modelValue, viewValue ) {
-        var value = modelValue || viewValue;
+      ngModel.$validators.mmRequireSome = function ( modelValue ) {
 
         if ( modelValue && modelValue.length ) {
           return true;
