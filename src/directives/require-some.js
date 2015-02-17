@@ -12,8 +12,7 @@ angular.module('mm.ui')
         ngModel.$render();
       }, true);
 
-      ngModel.$validators.mmRequireSome = function ( modelValue, viewValue ) {
-        var value = modelValue || viewValue;
+      ngModel.$validators.mmRequireSome = function ( modelValue ) {
 
         if ( modelValue && modelValue.length ) {
           return true;
