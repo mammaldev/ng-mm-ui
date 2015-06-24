@@ -80,5 +80,19 @@ describe('mmUnsavedWork factory', function () {
     mockRootScope.trigger();
     expect(locationChanged).to.equal(false);
   }));
+
+  it('should not change location if a true status has been set and the confirm button returns false - with a bespoke message', angular.mock.inject(function ( $location, mmUnsavedWork ) {
+    confirmResult = false;
+    mmUnsavedWork.setStatus('test', true, 'bespoke message');
+    mockRootScope.trigger();
+    expect(locationChanged).to.equal(false);
+  }));
+
+  it('should change location if a true status has been set and the confirm button returns true - with a bespoke message', angular.mock.inject(function ( $location, mmUnsavedWork ) {
+    confirmResult = true;
+    mmUnsavedWork.setStatus('test', true, 'bespoke message');
+    mockRootScope.trigger();
+    expect(locationChanged).to.equal(true);
+  }));
 });
 
