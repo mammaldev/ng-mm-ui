@@ -12,18 +12,25 @@ angular.module('mm.ui')
     var statuses = {};
 
     $rootScope.$on('$locationChangeStart', function routeChange( e ) {
-      var userDisplayMessage;
+      var userDisplayMessages = [];
       var anyUnsavedWork = false;
 
       Object.keys(statuses).forEach(function ( key ) {
         if ( statuses[ key ].value ) {
-          userDisplayMessage = statuses[ key ].message;
+          userDisplayMessages.push(statuses[ key ].message);
           anyUnsavedWork = true;
         }
       });
 
       if ( anyUnsavedWork ) {
-        var continueToNextLink = $window.confirm(userDisplayMessage);
+        var continueToNextLink;
+        for ( var i = 0; i < userDisplayMessages.length; i++ ) {
+          continueToNextLink = $window.confirm(userDisplayMessages[ i ]);
+          if ( !continueToNextLink ) {
+            break;
+          }
+        }
+
         if ( continueToNextLink ) {
           statuses = {};
         } else {
