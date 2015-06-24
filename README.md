@@ -55,7 +55,7 @@ The `mmRequireSome` directive provides validation for the length of items in an 
 
 ### The `mmUnsavedWork` factory
 
-The `mmUnsavedWork` factory can be used to prevent users from losing changes they have made to data when navigating to another page. `mmUnsavedWork.setStatus` sets a boolean against a key for each piece of data one chooses on the page.  If any value is true when a page navigation starts then a confirmation box will pop up alerting the user to the fact they may lose unsaved work and the option to stay on the page or continue.
+The `mmUnsavedWork` factory can be used to prevent users from losing changes they have made to data when navigating to another page. `mmUnsavedWork.setStatus` sets a boolean against a key for each piece of data one chooses on the page.  If any value is true when a page navigation starts then a confirmation box will pop up alerting the user to the fact they may lose unsaved work and the option to stay on the page or continue. You can provide an optional confirm message to override the default message.
 
 ##### Usage
 
@@ -65,7 +65,7 @@ angular.module('YourApp')
 .controller('YourController', function ( mmUnsavedWork ) {
 
   $scope.functionThatRunsWhenDataOnPageChanged = function () {
-    mmUnsavedWork.setStatus('work', true);
+    mmUnsavedWork.setStatus('work', true, 'optional override confirm message - you have unsaved work - click ok to continue or cancel to go back and save your work');
   }
 
   $scope.save = function () {
