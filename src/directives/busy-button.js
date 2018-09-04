@@ -1,8 +1,6 @@
 angular.module('mm.ui')
 .directive('mmBusyButton', function mmBusyButton( $parse ) {
-
   return {
-
     //
     // Attrs:
     //   mmBusyButtonModel      {Boolean}    Whether or not the button is in the busy state
@@ -13,9 +11,6 @@ angular.module('mm.ui')
 
       var busyGetter = $parse(attrs.mmBusyButtonModel);
 
-      // The default message is the text within the DOM node at compile-time
-      var defaultMessage = elem.text();
-
       // This class is used for the basic styling
       elem.addClass('busy-button');
 
@@ -24,6 +19,7 @@ angular.module('mm.ui')
       scope.$watch(function () {
         return busyGetter(scope);
       }, function (nv) {
+
 
         var customMessage = attrs.mmBusyButtonMessage;
 
@@ -42,6 +38,7 @@ angular.module('mm.ui')
 
             } else {
 
+              var defaultMessage = attrs.mmBusyButtonDefault || elem.text();
               // If we're not busy then we reset the text to the default message
               elem.text(defaultMessage);
             }
