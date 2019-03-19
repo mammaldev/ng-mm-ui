@@ -1,50 +1,30 @@
 angular.module('mm.ui', []);
 
 angular.module('mm.ui')
-.directive('mmBusyButton', ["$parse", function mmBusyButton( $parse ) {
+.directive('mmBusyButton', ["$parse", function mmBusyButton($parse) {
   return {
-    //
     // Attrs:
-    //   mmBusyButtonModel      {Boolean}    Whether or not the button is in the busy state
-    //   mmBusyButtonMessage    {String}     The text to show on the button when busy
-    //
+    //   mmBusyButtonModel      {Boolean}   Whether or not the button is in the busy state
+    //   mmBusyButtonMessage    {String}    (Optional) Button text when busy
+    //   mmBusyButtonDefault    {String}    (Optional) Button text when not busy. When not set the initial button text is used.
 
     link: function (scope, elem, attrs) {
-
-      var busyGetter = $parse(attrs.mmBusyButtonModel);
-
-      // This class is used for the basic styling
       elem.addClass('busy-button');
 
-      // Watch the 'busy' model and toggle the disabled state of the button and
-      // the class that shows the spinner when it changes
-      scope.$watch(function () {
-        return busyGetter(scope);
-      }, function (nv) {
+      var initialText = elem.text();
+      var getIsBusy = $parse(attrs.mmBusyButtonModel).bind(null, scope);
 
+      scope.$watch(getIsBusy, function (isBusy, wasBusy) {
+        if (isBusy === wasBusy) return;
 
-        var customMessage = attrs.mmBusyButtonMessage;
-
-        if (nv !== undefined) {
-
+        if (isBusy !== wasBusy) {
           // Add/remove the 'busy' class and disable/enable the button
           elem
-          .toggleClass('busy-button-busy', nv)
-          .prop('disabled', nv);
+          .toggleClass('busy-button-busy', isBusy)
+          .prop('disabled', isBusy);
 
-          if (customMessage) {
-            if (nv) {
-
-              // If we are currently busy then we change the message
-              elem.text(customMessage);
-
-            } else {
-
-              var defaultMessage = attrs.mmBusyButtonDefault || elem.text();
-              // If we're not busy then we reset the text to the default message
-              elem.text(defaultMessage);
-            }
-          }
+          var buttonText = isBusy ? attrs.mmBusyButtonMessage : (attrs.mmBusyButtonDefault || initialText);
+          if (buttonText) elem.text(buttonText);
         }
       });
     }
